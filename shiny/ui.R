@@ -14,6 +14,8 @@ library(plotly)
 
 ui <- fluidPage(
   titlePanel("Coping with copulas"),
+  
+  hr(),
  
    # short intro text
   fluidRow(
@@ -24,7 +26,7 @@ ui <- fluidPage(
   # action button explaining project
   fluidRow(
     column(12, 
-           actionButton("action_explain", "What is this about?"), 
+           actionButton("action_explain", "What is the stop signal task?"), 
            uiOutput("explain")
     )
   ),
@@ -38,6 +40,8 @@ ui <- fluidPage(
            uiOutput("copula_def")
     )
   ),
+  
+  hr(style="border-top: 1px solid #000000;"), 
   
   titlePanel("Choose copula and marginals"),
   fluidRow(
@@ -127,7 +131,7 @@ ui <- fluidPage(
            # checkbox: see marginals? 
            checkboxInput(inputId = "show_marginals", 
                          label = "Visualize chosen marginals", 
-                         value = FALSE),
+                         value = TRUE),
           
     ), 
     
@@ -139,6 +143,9 @@ ui <- fluidPage(
            plotlyOutput("marginal_plot")
     )
   ), 
+  
+  hr(), 
+  
   titlePanel("Condition"),
   
   fluidRow(

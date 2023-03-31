@@ -20,7 +20,7 @@ server <- function(input, output){
   
   # print short introduction
   output$short_intro <- renderText({
-    "blablabla"
+    "This project aims to..."
   })
   
   # print explanation if action button is pressed
@@ -28,9 +28,9 @@ server <- function(input, output){
     # show text when number of clicks is uneven; hide if even
     if(input$action_explain %% 2 == 1){
       updateActionButton(inputId = "action_explain", label = "Hide explanation")
-      renderText({"[bla]"})
+      renderText({"The stop signla task is an inhibition task in which..."})
     } else {
-      updateActionButton(inputId = "action_explain", label = "What is this about?")
+      updateActionButton(inputId = "action_explain", label = "What is the stop signal task?")
       tagList()
     }
   })
@@ -39,7 +39,7 @@ server <- function(input, output){
     # show text when number of clicks is uneven; hide if even
     if(input$action_copula %% 2 == 1){
       updateActionButton(inputId = "action_copula", label = "Hide definition")
-      renderText({"[bla]"})
+      renderText({"A copula is..."})
     } else {
       updateActionButton(inputId = "action_copula", label = "What is a copula?")
       tagList()
