@@ -10,32 +10,108 @@
 library(shiny)
 library(plotly)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+# Define UI for application 
 
-    # Application title
-    titlePanel("Copula"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            
-            selectInput("copula", "Select copula", choices = c("gaussian", "fgm", "clayton", "frank", "gumbel", "amh", "joe", "galambos", "huslerReiss", "tawn", "tev", "t")),
-            
-            selectInput("x_marginal", "Select marginal for x", choices = c("normal", "exponential")),
-            
-            selectInput("y_marginal", "Select marginal for y", choices = c("normal", "exponential")),
-            
-            sliderInput("cor_xy", "Determine Correlation", min=0, max=1, step=0.1, value=0.5),
-            
-            sliderInput("theta", "Set theta", min=-100, max=100, step=0.1, value=0)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          plotlyOutput("surface_plot"),
-          
-          plotOutput("cdf_plot")
-        )
+ui <- fluidPage(
+  tabsetPanel(
+    # TAB 1: Explain what this is about
+    tabPanel("Overview",
+             
+    ), 
+    
+    # TAB 2: Choose and visualize copula
+    tabPanel("Copula",
+             
+             sidebarPanel(
+               
+               # choose copula
+               selectInput(inputId = "copula",
+                           label = "Choose copula",
+                           c(Gaussian = "gaussian", 
+                             Farlie_Gumbel_Morgenstern = "fgm",
+                             "t", 
+                             Clayton = "clayton",
+                             Frank= "frank", 
+                             Gumbel = "gumbel",
+                             Ali-Mikhail-Haq = "amh",
+                             Joe = "joe",
+                             Galambos = "galambos",
+                             Husler-Reiss = "huslerReiss",
+                             Tawn = "tawn",
+                             t-Extreme-Value = "tev"
+                           )
+               ),
+               
+               # if fgm, gaussian, or t copula: choice of correlation
+               conditionalPanel(
+                 condition = "input.copula == 'fgm' | input.copula == 'gaussian' | input.copula == 't'",
+                 sliderInput(inputId = "cor_xy", 
+                             label = "Determine Correlation", 
+                             min=0, max=1, step=0.1, value=0.5),
+                 
+                 # if t copula: additionally choice of df
+                 conditionalPanel(
+                   condition = "input.copula == 't'",
+                   sliderInput(inputId = "df", 
+                               label = "Determine degrees of freedom", 
+                               min=1, max=50, step=1, value=5),
+                 )
+               ),
+               # if clayton copula: choice of theta
+               conditionalPanel(
+                 condition = "input.copula == 'clayton'",
+                 sliderInput(inputId = "theta", 
+                             label = "Determine theta", 
+                             min=1, max=50, step=1, value=5),
+               ),
+               # choose marginals for x and y 
+               radioButtons(inputId  = "x_marginal", 
+                            label    = "Select marginal for x", 
+                            choices  = c("normal", 
+                                         "exponential"), 
+                            selected = "normal"),
+               
+               radioButtons(inputId  = "y_marginal", 
+                            label    = "Select marginal for y", 
+                            choices  = c("normal", 
+                                         "exponential"), 
+                            selected = "normal")
+             ),
+             
+             mainPanel(
+               # output: plot surface of copula
+               plotlyOutput(outputId = "surface_plot")
+               
+             )
+             
+    ), 
+    
+    # TAB 3: Evaluate of condition is met
+    tabPanel("Probability distribution", 
+             
+             sidebarPanel(
+               
+               # Input: slider for delay parameter t_d
+               sliderInput(inputId = "slider_td",
+                           label   = "Choose delay parameter (in ms)",
+                           min = 1, max = 1000, value = 100),
+               
+               # Input: slider for sample size n 
+               sliderInput(inputId = "slider_n",
+                           label   = "Choose sample size",
+                           min = 30, max = 1500, value = 500)
+             ),
+             
+             mainPanel(
+               
+               # Output: plot distributions 
+               plotOutput(outputId = "cdf_plot"),
+               
+               # Output: is condition fulfilled?
+               textOutput(outputId = "condition_fulfilled")
+               
+             ),
+             
     )
-))
+  )
+)
