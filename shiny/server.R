@@ -6,6 +6,7 @@
 #
 #    http://shiny.rstudio.com/
 #
+print(getwd())
 
 library(shiny)
 library(dplyr)
@@ -16,6 +17,18 @@ source("utilities/plots.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
+  
+  # print explanation if action button is pressed
+  output$explain <- renderUI({
+    # show text when number of clicks is uneven; hide if even
+    if(input$action_explain %% 2 == 1){
+      updateActionButton(inputId = "action_explain", label = "Hide explanation")
+      renderText({"[bla]"})
+    } else {
+      updateActionButton(inputId = "action_explain", label = "What is this about?")
+      tagList()
+    }
+  })
   
   # insert functions to compute chosen copula 
   copula <- reactive({
@@ -44,7 +57,7 @@ server <- function(input, output){
   output$surface_plot <- renderPlotly({
     plot_surface(marginal_x(), marginal_y())
   })
-
+  
   
   # plot cdf 
   output$cdf_plot <- renderPlot({
