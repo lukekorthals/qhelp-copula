@@ -35,4 +35,3 @@ plot_cdf <- function(u, v) {
       theme_classic()
     return(fig)
 }
-
