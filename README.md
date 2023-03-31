@@ -24,18 +24,34 @@ According to Sklar's theorem (1959), any bivariate distribution function $F(x_1,
 
 $$ F(x_1, x_2) = C(F_1(x_1), F_2(x_2)) $$
 
+Assuming that $F_1(x_1)$ and $F_2(x_2)$ are the marginals of $F(x_1, x_2)$, copula $C$ can be written as: 
+
+$$ C(u_1, u_2) = F(F_1^{-1}(u_1), F_2^{-1}(u_2)) $$
+
+Where $F_1^{-1}$ and $F_2^{-1}$ are the quantile functions of the margins. 
+
+In context of the stop signal paradigm, this relationship allows to model processing times using a predefined copula whose uniform marginals can be transformed into fitting distributions using the quantile functions $F_1^{-1}$ and $F_2^{-1}$. 
+
 
 #### References: 
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-xie2018" class="csl-entry">
 
-Sklar, M. (1959). Fonctions de repartition an dimensions et leurs marges. Publ. inst. statist. univ. Paris, 8, 229-231.
+Sklar, M. (1959). Fonctions de repartition an dimensions et leurs marges. Publ. inst. statist. univ. Paris, 8, 229-231. 
 
 </div>
 </div>
 
+#### Cite this project: 
 
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-xie2018" class="csl-entry">
+
+Korthals, L., Hoffstadt, M., Groot, L., & van der Meer, D. (2023). qhelp-copula (Version 1.0.0) [Computer software]. <https://doi.org/10.5281/zenodo.1234>
+
+</div>
+</div>
 
 
 
