@@ -51,3 +51,46 @@ plot_cdf <- function(u, v) {
       )
     return(fig)
 }
+
+
+plot_marginals <- function(u, v) {
+  # generates plotly of the mraginal distributions
+  # u: vector of values for variable 1
+  # v: vector of values for variable 2
+  # returns: plotly combined plot
+  dat <- data.frame(u, v)
+  
+  # Histogram of Tgo
+  hist_top <- ggplot(dat) + 
+    geom_histogram(aes(u)) +
+    theme(axis.title.y=element_blank(),axis.text.y=element_blank(),axis.ticks.y=element_blank())
+  hist_top <- ggplotly(p = hist_top)
+  
+  # Combined Scatter
+  scatter <- ggplot(dat, aes(x=u, y=v)) +
+    geom_point() +
+    geom_smooth() +
+    labs(
+      x = "Tgo",
+      y = "Tstop"
+    )
+  scatter <- ggplotly(p = scatter, type = 'scatter')
+  
+  # Histogram of Tstop
+  hist_right <- ggplot(dat) + 
+    geom_histogram(aes(v)) +
+    coord_flip() +
+    theme(axis.title.x=element_blank(),axis.text.x=element_blank(),axis.ticks.x=element_blank())
+  hist_right <- ggplotly(p = hist_right)
+  
+  # Combined plot
+  s <- subplot(
+    hist_top, 
+    plotly_empty(), 
+    scatter,
+    hist_right,
+    nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2), margin = 0,
+    shareX = TRUE, shareY = TRUE, titleX = TRUE, titleY = TRUE
+  )
+  return(layout(s, showlegend = FALSE))
+}
