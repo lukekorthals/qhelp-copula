@@ -1,5 +1,5 @@
 ## Shiny App
-You can run the app from your browser: https://lukekorthals.shinyapps.io/shiny-data-witch/
+You can run the app from your browser: https://lukekorthals.shinyapps.io/stop-signal-copula/
 
 You can run the app from R Studiod:
 
