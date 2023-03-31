@@ -20,25 +20,34 @@ source("utilities/content.R")
 server <- function(input, output){
   
   # print short introduction
-  output$short_intro <- renderText({
-    "The goal of this project is to generate and visualize cumulative probability
-    distributions of reaction times in the general race model using copulas.
-    With the help of a shiny-app, the user can try out different starting 
-    configurations by choosing custom copulae and marginals. "
+  output$short_intro <- renderUI({
+    HTML(paste(
+    "In this shiny app, you can test if the independent race model can explain
+    data from the stop-signal task. We want to know if go and stop signal
+    processing times are independent of each other. If the independent race
+    model cannot explain your generated data, go and stop signal processing
+    times may be dependent on each other. To describe how these two distributions
+    relate to each other, we could use use a Copula.",
+    " ", " ", sep="<br/>"))
   })
   
   # print explanation if action button is pressed
   output$explain <- renderUI({
     # show text when number of clicks is uneven; hide if even
     if(input$action_explain %% 2 == 1){
-      updateActionButton(inputId = "action_explain", label = "Hide explanation")
-      renderText({"The stop signal paradigm is an experimental setup within which 
-        subjects are instructed to respond to a cue ('go' signal) as fast as 
-        possible by for example pressing a button (no stop signal trials). 
-        In a small subset of trials, shortly after the 'go' signal, an additional 
-        'stop' signal is presented which requires participants to inhibit the 
-        initiated response. Within these stop-signal trials, participants might
-        or might not manage to inhibit the go."})
+      updateActionButton(inputId = "action_explain", label = "Got it!")
+      renderUI({HTML("The stop signal paradigm is an experimental setup in which 
+        participants are instructed to respond to a cue ('go' signal) as fast as 
+        possible, for example by pressing a button. However, on some trials, the
+        'go' signal is followed by a 'stop' signal. On these trials, participants
+        should try not to respond.<br>
+        What cognitive processes determine whether the participant manages to avoid
+        responding to a stop signal? The general race model assumes that there is a
+        race between two processes: the processing of the go signal and the processing
+        of the stop signal. The process that is completed first 'wins' and determines
+        the response. For example, if the stop signal processing is completed before
+        the go signal processing, the participant will not respond to the stop signal. <br> <br>
+        <img src='stop_signal_paradigm.png' alt='Stop Signal Paradigm' width='400' height='400'>")})
     } else {
       updateActionButton(inputId = "action_explain", label = "What is the stop signal task?")
       tagList()
@@ -48,12 +57,14 @@ server <- function(input, output){
   output$race_def <- renderUI({
     # show text when number of clicks is uneven; hide if even
     if(input$action_racemodel %% 2 == 1){
-      updateActionButton(inputId = "action_racemodel", label = "Hide definition")
-      renderText({"The general race model describes the random processing time for 
-        the go and stop signals during the stop-signal trials as a bivariate 
-        distribution function."})
+      updateActionButton(inputId = "action_racemodel", label = "Got it!")
+      HTML("The independent race model proposes that the distribution of
+      the go-signal processing times (T<sub>go</sub>) and distribution of the stop-signal
+      processing times (T<sub>stop</sub>) are independent of each other. In other words, the time
+      it takes to process a go-signal does not depend on the time it takes to
+      process a stop signal and vice versa.")
     } else {
-      updateActionButton(inputId = "action_racemodel", label = "What is the general race model about?")
+      updateActionButton(inputId = "action_racemodel", label = "What is the independent race model about?")
       tagList()
     }
   })
@@ -61,8 +72,14 @@ server <- function(input, output){
   output$copula_def <- renderUI({
     # show text when number of clicks is uneven; hide if even
     if(input$action_copula %% 2 == 1){
-      updateActionButton(inputId = "action_copula", label = "Hide definition")
-      renderText({"A copula is..."})
+      updateActionButton(inputId = "action_copula", label = "Got it!")
+      renderUI({HTML(paste("A copula is a cumulative probability density function that
+        describes how two or more variables relate to each other. <br> Using a Copula
+        instead of a Multivariate Normal has two big advantages:",
+        "<ul><li>The marginal distributions of the variables don't have to be normal.</li>
+        <li>The marginal distributions of the variables don't have to be the same.</li></ul>",
+        "In this shiny app, you can choose a copula function that describes the relationship
+        between T<sub>go</sub> and T<sub>stop</sub> also specify a marginal function for each individual variable."))})
     } else {
       updateActionButton(inputId = "action_copula", label = "What is a copula?")
       tagList()
@@ -105,8 +122,17 @@ server <- function(input, output){
   })
   
   # print explanation of condition
-  output$explain_cond <- renderText({
-    print(explanation_cdf())
+  output$explain_cond <- renderUI({
+    HTML(paste("The plot below tests the independent race model. The independent race model
+    implies that the CDF of all go-signal processing times (red line) should be
+    smaller than or equal to the CDF of only the go-signal processing times of
+    the trials where go-signal processing was completed earlier than stop-signal
+    processing (blue line).\n In the plot below, you can check if this condition
+    holds for the data you generated from your chosen combination of copula and
+    marginals. If the red line is left of the blue line, the independent race
+    model cannot explain the data. This would suggest that the T<sub>go</sub> and
+    T<sub>stop</sub> distributions are not independent of each other, but depend on/are
+    coupled to each other.", " ", " ", sep="<br/>"))
   })
   
   # plot cdf 

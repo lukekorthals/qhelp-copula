@@ -14,21 +14,23 @@ library(plotly)
 
 ui <- fluidPage(
   
-  titlePanel("Coping with copulas"),
+  titlePanel(title = div(img(src = "logo.jpg",width = "100px"),
+                         "Testing the Independent Race Model with Copulas")),
   
+  br(),
   hr(),
  
    # short intro text
   fluidRow(
     column(12,
-           textOutput("short_intro"))
+           htmlOutput("short_intro"))
   ),
   
   # action button explaining project
   fluidRow(
     column(12, 
            actionButton("action_explain", "What is the stop signal task?"), 
-           uiOutput("explain")
+           htmlOutput("explain")
     )
   ),
   
@@ -37,24 +39,26 @@ ui <- fluidPage(
   # action button definition copula
   fluidRow(
     column(12, 
-           actionButton("action_racemodel", "What is the general race model about?"), 
-           uiOutput("race_def")
+           actionButton("action_racemodel", "What is the independent race model about?"), 
+           htmlOutput("race_def")
     )
   ),
-  
+
   hr(),
   
   # action button definition copula
   fluidRow(
     column(12, 
            actionButton("action_copula", "What is a copula again?"), 
-           uiOutput("copula_def")
+           htmlOutput("copula_def")
     )
   ),
   
+  br(),
   hr(style="border-top: 1px solid #000000;"), 
   
   titlePanel("Choose copula and marginals"),
+  br(),
   fluidRow(
     column(4,   
            # choose copula
@@ -74,6 +78,7 @@ ui <- fluidPage(
                          `t Extreme Value` = "tev"
                        )
            ),
+           br(),
            
            # if fgm, gaussian, or t copula: choice of correlation
            conditionalPanel(
@@ -98,8 +103,19 @@ ui <- fluidPage(
                          min=-50, max=50, step=0.1, value=0),
            ),
            
-           hr(style="border-top: 1px solid #000000;"), 
-           
+    ), 
+    
+    column(8,
+           # output: plot surface of copula
+           plotlyOutput(outputId = "surface_plot"), 
+    ),
+  ),
+  
+  br(),
+  hr(),
+  
+  fluidRow(
+    column(4,
            # choose marginal for x  
            selectInput(inputId  = "x_marginal", 
                         label    = "Select marginal for Tgo", 
@@ -110,14 +126,13 @@ ui <- fluidPage(
                                      `Double Exponential` = "doubleExponential",
                                      `Weibull (default shape = 5`= "weibull"), 
                         selected = "normal"),
-           
+           br(),
            # choose mean of Tgo distribution
            sliderInput(inputId = "scale_mean_x",
                        label   = "Choose mean of processing time of GO signal (in ms)",
                        min = 100, max = 1000, value = 300),
            
-           hr(style="border-top: 1px solid #000000;"), 
-           
+           br(),
            # choose marginal of Tstop
            selectInput(inputId  = "y_marginal", 
                         label    = "Select marginal for Tstop", 
@@ -128,17 +143,17 @@ ui <- fluidPage(
                                      `Double Exponential` = "doubleExponential",
                                      `Weibull (default shape = 5` = "weibull"),
                         selected = "normal"),
-           
+           br(),
            # choose mean of Tstop distribution
            sliderInput(inputId = "scale_mean_y",
                        label   = "Choose mean of processing time for STOP signal (in ms)",
                        min = 100, max = 1000, value = 300),
-           
+           br(),
            # choose delay for Tstop
            sliderInput(inputId = "t_d",
                        label   = "Choose delay of response to STOP signal (in ms)",
                        min = 1, max = 1000, value = 100),
-           
+           br(),
            # checkbox: see marginals? 
            checkboxInput(inputId = "show_marginals", 
                          label = "Visualize chosen marginals", 
@@ -146,27 +161,28 @@ ui <- fluidPage(
           
     ), 
     
-    column(8,   # copula output
-           # output: plot surface of copula
-           plotlyOutput(outputId = "surface_plot"), 
-           
+    column(8, align = "center",
            # Output: show marginals
            plotlyOutput("marginal_plot")
     )
   ), 
   
-  hr(), 
+  hr(style="border-top: 1px solid #000000;"),
   
-  titlePanel("Condition"),
+  titlePanel("Testing the Condition"),
+  
+  br(),
   
   fluidRow(
     # short explanation of condition
-    textOutput("explain_cond"),
-    
+    column(12,
+           htmlOutput("explain_cond"))
+  ),
+  
+  fluidRow(
     column(8,
            # Output: plot distributions 
            plotOutput(outputId = "cdf_plot")
-           
            ),
     column(4, 
            # Output: is condition fulfilled?
