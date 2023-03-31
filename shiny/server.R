@@ -45,6 +45,19 @@ server <- function(input, output){
     }
   })
   
+  output$race_def <- renderUI({
+    # show text when number of clicks is uneven; hide if even
+    if(input$action_racemodel %% 2 == 1){
+      updateActionButton(inputId = "action_racemodel", label = "Hide definition")
+      renderText({"The general race model describes the random processing time for 
+        the go and stop signals during the stop-signal trials as a bivariate 
+        distribution function."})
+    } else {
+      updateActionButton(inputId = "action_racemodel", label = "What is the general race model about?")
+      tagList()
+    }
+  })
+  
   output$copula_def <- renderUI({
     # show text when number of clicks is uneven; hide if even
     if(input$action_copula %% 2 == 1){
