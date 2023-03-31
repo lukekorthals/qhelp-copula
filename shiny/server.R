@@ -12,9 +12,9 @@ setwd("./utilities")
 library(shiny)
 library(dplyr)
 library(plotly)
-source("copula.R")
-source("marginals.R")
-source("plots.R")
+source("utilities\copula.R")
+source("utilities\marginals.R")
+source("utilities\plots.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
