@@ -9,7 +9,7 @@
 library(gamlss.dist)
 library(nimble)
 
-extract_marginal <- function(u, marginal="normal", wei_shape = NULL) { # Add mean reaction time as parameter and use it to rescale the distributions
+extract_marginal <- function(u, marginal="normal", wei_shape = NULL, scale_mean=200) { # Add mean reaction time as parameter and use it to rescale the distributions
   u_t <- switch(marginal,
                 normal = qnorm(u),
                 exponential = qexp(u),
