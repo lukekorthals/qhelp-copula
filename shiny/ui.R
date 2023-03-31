@@ -133,6 +133,13 @@ ui <- fluidPage(
                        min = 100, max = 1000, value = 300),
            
            br(),
+           
+           # choose sd of Tgo distribution
+           sliderInput(inputId = "scale_sd_x",
+                       label   = "Choose sd of processing time of GO signal (in ms)",
+                       min = 10, max = 50, step=1, value = 15),
+           
+           br(),
            # choose marginal of Tstop
            selectInput(inputId  = "y_marginal", 
                         label    = "Select marginal for Tstop", 
@@ -143,6 +150,13 @@ ui <- fluidPage(
                                      `Double Exponential` = "doubleExponential",
                                      `Weibull (default shape = 5` = "weibull"),
                         selected = "normal"),
+           br(),
+           
+           # choose sd of Tstop distribution
+           sliderInput(inputId = "scale_sd_y",
+                       label   = "Choose sd of processing time of STOP signal (in ms)",
+                       min = 10, max = 50, step=1, value = 15),
+           
            br(),
            # choose mean of Tstop distribution
            sliderInput(inputId = "scale_mean_y",

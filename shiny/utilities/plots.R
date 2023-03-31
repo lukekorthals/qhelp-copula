@@ -83,7 +83,7 @@ plot_marginals <- function(u, v) {
     geom_smooth() +
     labs(
       x = "Tgo",
-      y = "Tstop"
+      y = "Tstop + delay"
     )
   scatter <- ggplotly(p = scatter, type = 'scatter')
   

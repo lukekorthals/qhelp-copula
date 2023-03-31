@@ -73,8 +73,8 @@ server <- function(input, output){
     # show text when number of clicks is uneven; hide if even
     if(input$action_copula %% 2 == 1){
       updateActionButton(inputId = "action_copula", label = "Got it!")
-      renderUI({HTML(paste("A copula is a cumulative probability density function that
-        describes how two or more variables relate to each other. <br> Using a Copula
+      renderUI({HTML(paste("A copula is a multivariate dsitribution function consisting of uniform marginal distributions. 
+        This means, it describes how two or more variables relate to each other. <br> Using a Copula
         instead of a Multivariate Normal has two big advantages:",
         "<ul><li>The marginal distributions of the variables don't have to be normal.</li>
         <li>The marginal distributions of the variables don't have to be the same.</li></ul>",
@@ -102,11 +102,17 @@ server <- function(input, output){
   
   # marginals for x and y
   marginal_x <- reactive({
-    marginal_x <- extract_marginal(copula()$samples[,1], input$x_marginal, scale_mean = input$scale_mean_x) 
+    marginal_x <- extract_marginal(copula()$samples[,1], 
+                                   input$x_marginal, 
+                                   scale_mean = input$scale_mean_x,
+                                   scale_sd = input$scale_sd_x) 
   })
   
   marginal_y <- reactive({
-    marginal_y <- extract_marginal(copula()$samples[,2], input$y_marginal, scale_mean = input$scale_mean_y) + input$t_d
+    marginal_y <- extract_marginal(copula()$samples[,2], 
+                                   input$y_marginal, 
+                                   scale_mean = input$scale_mean_y,
+                                   scale_sd = input$scale_sd_y) + input$t_d
   })
   
   # plot surface of copula
