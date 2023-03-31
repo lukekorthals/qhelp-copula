@@ -1,0 +1,13 @@
+name: stop-signal-copula
+title: stop-signal-copula
+username:
+account: lukekorthals
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8736193
+bundleId: 7034794
+url: https://lukekorthals.shinyapps.io/stop-signal-copula/
+when: 1680299387.27165
+lastSyncTime: 1680299387.27167
+asMultiple: FALSE
+asStatic: FALSE

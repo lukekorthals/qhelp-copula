@@ -7,6 +7,12 @@
 #    http://shiny.rstudio.com/
 #
 
+# install required packages
+list.of.packages <- c("shiny", "plotly", "dplyr", "tidyr", "ggplot2", "nimble", "gamlss.dist", "copula")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+# load required packages
 library(shiny)
 library(plotly)
 
