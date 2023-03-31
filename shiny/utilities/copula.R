@@ -3,28 +3,19 @@
 # and to generate random samples from the copula              #
 ###############################################################
 
-# note to self: checkout p2P() and getSigma()
 # Required Packages
-setwd(getSrcDirectory(function(){})[1])
 library(copula)
-library(VineCopula)
-library(mvtnorm)
-library(dplyr)
-library(kdecopula)
-source("plots.R")
 
 # Helper functions
-compile_copula_list <- function(copula) {
+compile_copula_list <- function(copula, n=10000) {
     # Compiles a list of copula properties
     # copula: copula object
     # u: matrix of relevant values (e.g. cor/ theta)
     # returns: list of copula properties
-    samples <- rCopula(1000, copula)
-    surface_plot <- plot_copula_surface(samples)
+    samples <- rCopula(n, copula)
     copula_list <- list(
         copula=copula, 
-        samples=samples, 
-        surface_plot=surface_plot 
+        samples=samples 
         )
     return(copula_list)
 }
