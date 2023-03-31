@@ -7,7 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-setwd("./utilities")
 
 library(shiny)
 library(dplyr)
