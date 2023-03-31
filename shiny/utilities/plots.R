@@ -19,7 +19,12 @@ plot_surface <- function(u, v) {
   v_c <- cut(v, 20)
   z <- table(u_c, v_c)
   fig <- plot_ly(z = ~z) %>%
-    add_surface()
+    add_surface(colorbar = list(title="Counts")) %>%
+    layout(scene = list(xaxis = list(title = "Tgo"),
+                        yaxis = list(title = "Tstop"),
+                        zaxis = list(title = "Count")),
+           title = "Multivariate Distributions"
+    )
   return(fig)
 }
 
@@ -44,11 +49,14 @@ plot_cdf <- function(u, v) {
       theme_classic() +
       labs(
         x = "Processing time (ms)",
-        y = "Cumulative Density"
+        y = "Cumulative Density",
+        col = c("Distribution"),
+        title = "Cumulative Probabilities"
       ) + 
       theme(
         legend.position = "top"
-      )
+      ) +
+      scale_color_discrete(labels = c("Tgo", "Tgo < Tstop + delay"))
     return(fig)
 }
 
@@ -92,5 +100,5 @@ plot_marginals <- function(u, v) {
     nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2), margin = 0,
     shareX = TRUE, shareY = TRUE, titleX = TRUE, titleY = TRUE
   )
-  return(layout(s, showlegend = FALSE))
+  return(layout(s, showlegend = FALSE, title="Marginal Distributions"))
 }
