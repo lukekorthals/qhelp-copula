@@ -5,9 +5,9 @@ account: lukekorthals
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8736193
-bundleId: 7034794
+bundleId: 7034802
 url: https://lukekorthals.shinyapps.io/stop-signal-copula/
-when: 1680299387.27165
-lastSyncTime: 1680299387.27167
+when: 1680299774.81243
+lastSyncTime: 1680299774.81244
 asMultiple: FALSE
 asStatic: FALSE
