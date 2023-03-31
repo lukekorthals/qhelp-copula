@@ -46,16 +46,23 @@ server <- function(input, output){
   
   # marginals for x and y
   marginal_x <- reactive({
-    marginal_x <- extract_marginal(copula()$samples[,1], input$x_marginal)
+    marginal_x <- extract_marginal(copula()$samples[,1], input$x_marginal, scale_mean = input$scale_mean_x) 
   })
   
   marginal_y <- reactive({
-    marginal_y <- extract_marginal(copula()$samples[,2], input$y_marginal)
+    marginal_y <- extract_marginal(copula()$samples[,2], input$y_marginal, scale_mean = input$scale_mean_y) + input$t_d
   })
   
   # plot surface of copula
   output$surface_plot <- renderPlotly({
     plot_surface(marginal_x(), marginal_y())
+  })
+  
+  # plot marginals if box checked
+  output$marginal_plot <- renderPlotly({
+    if(input$show_marginals) {
+      plot_marginals(marginal_x(), marginal_y())
+    }
   })
   
   

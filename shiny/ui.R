@@ -65,30 +65,41 @@ ui <- fluidPage(
                          min=-50, max=50, step=0.1, value=0),
            ),
            # choose marginals for x and y 
-           radioButtons(inputId  = "x_marginal", 
-                        label    = "Select marginal for x", 
+           selectInput(inputId  = "x_marginal", 
+                        label    = "Select marginal for Tgo", 
                         choices  = c(Normal = "normal", 
                                      Exponential = "exponential",
                                      `Log Normal` = "logNormal",
                                      `Ex Gaussian` = "exGaussian",
                                      `Double Exponential` = "doubleExponential",
-                                     Weibull = "weibull"), 
+                                     `Weibull (default shape = 5`= "weibull"), 
                         selected = "normal"),
            
-           radioButtons(inputId  = "y_marginal", 
-                        label    = "Select marginal for y", 
+           selectInput(inputId  = "y_marginal", 
+                        label    = "Select marginal for Tstop", 
                         choices  = c(Normal = "normal", 
                                      Exponential = "exponential",
                                      `Log Normal` = "logNormal",
                                      `Ex Gaussian` = "exGaussian",
                                      `Double Exponential` = "doubleExponential",
-                                     Weibull = "weibull"),
-                        selected = "normal")  
+                                     `Weibull (default shape = 5` = "weibull"),
+                        selected = "normal"),
+           
+           # checkbox: see marginals? 
+           checkboxInput(inputId = "show_marginals", 
+                         label = "Visualize chosen marginals", 
+                         value = FALSE),
+           
+           
+          
     ), 
     
     column(8,   # copula output
            # output: plot surface of copula
-           plotlyOutput(outputId = "surface_plot")
+           plotlyOutput(outputId = "surface_plot"), 
+           
+           # Output: show marginals
+           plotlyOutput("marginal_plot")
     )
   ), 
   titlePanel("Condition"),
@@ -101,7 +112,7 @@ ui <- fluidPage(
                        min = 1, max = 1000, value = 100),
            
            # Input: slider for scaling 
-           sliderInput(inputId = "scale_mean",
+           sliderInput(inputId = "scale_mean_x",
                        label   = "Choose mean of processing time in ms",
                        min = 100, max = 1000, value = 300)
            
