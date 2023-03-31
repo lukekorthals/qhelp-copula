@@ -11,3 +11,4 @@
 
 
 # plot output
+# plot_cdf(reactive_x_marginal(), reactive_y_marginal())
