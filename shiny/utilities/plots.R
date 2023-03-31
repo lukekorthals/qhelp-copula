@@ -5,6 +5,7 @@
 # Required packages
 library(plotly)
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 
 
@@ -28,15 +29,25 @@ plot_cdf <- function(u, v) {
     # u: vector of values for variable 1
     # v: vector of values for variable 2
     # returns: ggplot
-    u_ <- u-v
-    u_ <- u_[u_ < 0] # go < stop
+    u_ <- u[u < v] # go < stop
     dat <- data.frame(
       u = sample(u, 10000, replace=TRUE),
       u_ = sample(u_, 10000, replace=TRUE)
       )
-    fig <- ggplot(dat) +
-      stat_ecdf(aes(u), geom="smooth", col="black") +
-      stat_ecdf(aes(u_), geom="smooth", col="red") +
-      theme_classic()
+    fig <-  data.frame(u = sample(u, 10000, replace=TRUE),
+                       u_ = sample(u_, 10000, replace=TRUE)) %>%
+      pivot_longer(cols = c(u, u_), 
+                   names_to = "distribution", 
+                   values_to = "value") %>%
+      ggplot(aes(x = value, col = distribution)) +
+      stat_ecdf() + 
+      theme_classic() +
+      labs(
+        x = "Processing time (ms)",
+        y = "Cumulative Density"
+      ) + 
+      theme(
+        legend.position = "top"
+      )
     return(fig)
 }
