@@ -13,6 +13,8 @@ library(plotly)
 # Define UI for application 
 
 ui <- fluidPage(
+  titlePanel("Header"),
+  
   tabsetPanel(
     # TAB 1: Explain what this is about
     tabPanel("Overview",
