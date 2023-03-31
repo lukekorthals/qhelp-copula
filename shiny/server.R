@@ -7,7 +7,6 @@
 #    http://shiny.rstudio.com/
 #
 
-
 library(shiny)
 library(dplyr)
 library(plotly)
@@ -30,13 +29,23 @@ server <- function(input, output){
     } else if (input$copula %in% theta_copula) {
       copula <- generate_copula_from_theta(theta = input$theta, copula = input$copula)
     }
+    copula <- list(copula, samples)
   }) 
   
+  # marginals for x and y
+  marginal_x <- reactive({
+    copula()samples[,1]
+  })
+  
+  marginal_y <- reactive({
+    copula()samples[,2]
+  })
   
   # plot surface of copula
   output$surface_plot <- renderPlotly({
-    print(copula()$surface_plot)
+    plot_surface(marginal_x(), marginal_y())
   })
+
   
   # plot cdf 
   output$cdf_plot <- renderPlot({
