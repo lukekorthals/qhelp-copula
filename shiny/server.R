@@ -14,6 +14,7 @@ library(plotly)
 source("utilities/copula.R")
 source("utilities/marginals.R")
 source("utilities/plots.R")
+source("utilities/content.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
@@ -83,7 +84,7 @@ server <- function(input, output){
   
   # print explanation of condition
   output$explain_cond <- renderText({
-    "blablabla"
+    print(explanation_cdf())
   })
   
   # plot cdf 
