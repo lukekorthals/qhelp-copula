@@ -1,3 +1,10 @@
+## Shiny App
+You can run the app from your browser: https://lukekorthals.shinyapps.io/shiny-data-witch/
+
+You can run the app from R Studiod:
+
+runGitHub( "qhelp-copula", "lukekorthals")
+
 ## Qhelp 2023 project 
 
 The goal of this project is to generate and visualize cumulative probability distributions of reaction times in the general race model using copulas. With the help of a shiny-app, the user can try out different starting configurations by choosing custom copulae and marginals. 
