@@ -6,12 +6,12 @@
 # Required Packages
 library(copula)
 
+
 # Helper functions
 compile_copula_list <- function(copula, n=10000) {
-    # Compiles a list of copula properties
+    # compile copula and samples into a list
     # copula: copula object
-    # u: matrix of relevant values (e.g. cor/ theta)
-    # returns: list of copula properties
+    # n: number of samples to generate
     samples <- rCopula(n, copula)
     copula_list <- list(
         copula=copula, 
@@ -23,6 +23,11 @@ compile_copula_list <- function(copula, n=10000) {
 
 # Copula functions
 generate_copula_from_cor <- function(cor_xy, copula="gaussian") {
+    # generates copula object from correlation
+    # cor_xy: correlation between x and y
+    # copula: copula type
+    # returns: list of copula object and samples
+
     # validate input
     valid_copula <- c("gaussian", "fgm")
     if (cor_xy < -1 | cor_xy > 1) {
@@ -41,6 +46,12 @@ generate_copula_from_cor <- function(cor_xy, copula="gaussian") {
 
 
 generate_copula_from_cor_df <- function(cor_xy, df, copula="t") {
+    # generates copula object from correlation and degrees of freedom
+    # cor_xy: correlation between x and y
+    # df: degrees of freedom
+    # copula: copula type
+    # returns: list of copula object and samples
+
     # validate input
     valid_copula <- c("t")
     if (cor_xy < -1 | cor_xy > 1) {
@@ -50,7 +61,6 @@ generate_copula_from_cor_df <- function(cor_xy, df, copula="t") {
     } else if (df <= 0) {
         stop("df must be greater than 0")
     }
-
     # generate copula
     copula_ <- switch(copula,
         t = tCopula(param=cor_xy, dim=2, df=df)
@@ -59,11 +69,17 @@ generate_copula_from_cor_df <- function(cor_xy, df, copula="t") {
     return(copula_list)
 }
 
+
 generate_copula_from_theta <- function(theta, copula="clayton") {
+    # generates copula object from theta
+    # theta: copula parameter
+    # copula: copula type
+    # returns: list of copula object and samples
+
     # validate input
     valid_copula <- c("clayton", "frank", "gumbel", "amh", "joe", "galambos", "huslerReiss", "tawn", "tev")
     if (!(copula %in% valid_copula)) {
-        stop("copula must be clayton, frank, or gumbel")
+        stop(paste0("copula must be one of ", paste(valid_copula, collapse=", ")))
     } else if (copula == "clayton" & theta < -1) {
         stop("theta must be greater than -1 for clayton copula")
     } else if (copula == "gumbel" & theta < 1) {
