@@ -18,6 +18,11 @@ source("utilities/plots.R")
 # Define server logic required to draw a histogram
 server <- function(input, output){
   
+  # print short introduction
+  output$short_intro <- renderText({
+    "blablabla"
+  })
+  
   # print explanation if action button is pressed
   output$explain <- renderUI({
     # show text when number of clicks is uneven; hide if even
@@ -26,6 +31,17 @@ server <- function(input, output){
       renderText({"[bla]"})
     } else {
       updateActionButton(inputId = "action_explain", label = "What is this about?")
+      tagList()
+    }
+  })
+  
+  output$copula_def <- renderUI({
+    # show text when number of clicks is uneven; hide if even
+    if(input$action_copula %% 2 == 1){
+      updateActionButton(inputId = "action_copula", label = "Hide definition")
+      renderText({"[bla]"})
+    } else {
+      updateActionButton(inputId = "action_copula", label = "What is a copula?")
       tagList()
     }
   })
@@ -65,6 +81,10 @@ server <- function(input, output){
     }
   })
   
+  # print explanation of condition
+  output$explain_cond <- renderText({
+    "blablabla"
+  })
   
   # plot cdf 
   output$cdf_plot <- renderPlot({

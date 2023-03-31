@@ -13,17 +13,35 @@ library(plotly)
 # Define UI for application 
 
 ui <- fluidPage(
-  titlePanel("Heading"),
+  titlePanel("Coping with copulas"),
+ 
+   # short intro text
   fluidRow(
-    column(12,  # for action button
+    column(12,
+           textOutput("short_intro"))
+  ),
+  
+  # action button explaining project
+  fluidRow(
+    column(12, 
            actionButton("action_explain", "What is this about?"), 
            uiOutput("explain")
     )
   ),
   
-  titlePanel("Choose copula"),
+  hr(),
+  
+  # action button definition copula
   fluidRow(
-    column(4,   # for copula input
+    column(12, 
+           actionButton("action_copula", "What is a copula again?"), 
+           uiOutput("copula_def")
+    )
+  ),
+  
+  titlePanel("Choose copula and marginals"),
+  fluidRow(
+    column(4,   
            # choose copula
            selectInput(inputId = "copula",
                        label = "Choose copula",
@@ -64,7 +82,10 @@ ui <- fluidPage(
                          label = "Determine theta", 
                          min=-50, max=50, step=0.1, value=0),
            ),
-           # choose marginals for x and y 
+           
+           hr(style="border-top: 1px solid #000000;"), 
+           
+           # choose marginal for x  
            selectInput(inputId  = "x_marginal", 
                         label    = "Select marginal for Tgo", 
                         choices  = c(Normal = "normal", 
@@ -75,6 +96,14 @@ ui <- fluidPage(
                                      `Weibull (default shape = 5`= "weibull"), 
                         selected = "normal"),
            
+           # choose mean of Tgo distribution
+           sliderInput(inputId = "scale_mean_x",
+                       label   = "Choose mean of processing time of GO signal (in ms)",
+                       min = 100, max = 1000, value = 300),
+           
+           hr(style="border-top: 1px solid #000000;"), 
+           
+           # choose marginal of Tstop
            selectInput(inputId  = "y_marginal", 
                         label    = "Select marginal for Tstop", 
                         choices  = c(Normal = "normal", 
@@ -85,12 +114,20 @@ ui <- fluidPage(
                                      `Weibull (default shape = 5` = "weibull"),
                         selected = "normal"),
            
+           # choose mean of Tstop distribution
+           sliderInput(inputId = "scale_mean_y",
+                       label   = "Choose mean of processing time for STOP signal (in ms)",
+                       min = 100, max = 1000, value = 300),
+           
+           # choose delay for Tstop
+           sliderInput(inputId = "t_d",
+                       label   = "Choose delay of response to STOP signal (in ms)",
+                       min = 1, max = 1000, value = 100),
+           
            # checkbox: see marginals? 
            checkboxInput(inputId = "show_marginals", 
                          label = "Visualize chosen marginals", 
                          value = FALSE),
-           
-           
           
     ), 
     
@@ -105,28 +142,18 @@ ui <- fluidPage(
   titlePanel("Condition"),
   
   fluidRow(
-    column(4,   # for condition input
-           # Input: slider for delay parameter t_d
-           sliderInput(inputId = "slider_td",
-                       label   = "Choose delay parameter (in ms)",
-                       min = 1, max = 1000, value = 100),
-           
-           # Input: slider for scaling 
-           sliderInput(inputId = "scale_mean_x",
-                       label   = "Choose mean of processing time in ms",
-                       min = 100, max = 1000, value = 300)
-           
-    ), 
+    # short explanation of condition
+    textOutput("explain_cond"),
     
-    column(8,   # condition output
+    column(8,
            # Output: plot distributions 
-           plotOutput(outputId = "cdf_plot"),
+           plotOutput(outputId = "cdf_plot")
            
+           ),
+    column(4, 
            # Output: is condition fulfilled?
            textOutput(outputId = "condition_fulfilled")
-           
-    )
-  ), 
-  
-  
+           )
+  )
 )
+      
