@@ -10,9 +10,9 @@
 library(shiny)
 library(dplyr)
 library(plotly)
-source("utilities\copula.R")
-source("utilities\marginals.R")
-source("utilities\plots.R")
+source("utilities/copula.R")
+source("utilities/marginals.R")
+source("utilities/plots.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
@@ -29,16 +29,15 @@ server <- function(input, output){
     } else if (input$copula %in% theta_copula) {
       copula <- generate_copula_from_theta(theta = input$theta, copula = input$copula)
     }
-    copula <- list(copula, samples)
   }) 
   
   # marginals for x and y
   marginal_x <- reactive({
-    copula()samples[,1]
+    marginal_x <- extract_marginal(copula()$samples[,1], input$x_marginal)
   })
   
   marginal_y <- reactive({
-    copula()samples[,2]
+    marginal_y <- extract_marginal(copula()$samples[,2], input$y_marginal)
   })
   
   # plot surface of copula
@@ -49,18 +48,7 @@ server <- function(input, output){
   
   # plot cdf 
   output$cdf_plot <- renderPlot({
-    u <- copula()$samples[,1]
-    v <- copula()$samples[,2]
-    u <- extract_marginal(u, input$x_marginal)
-    v <- extract_marginal(v, input$y_marginal)
-    u_ <- data.frame(u, v) %>%
-      mutate(uv = u-v) %>%
-      filter(uv < 0) %>%
-      select(u) %>%
-      unlist()
-    u <- sample(u, 1000, replace=TRUE)
-    u_ <- sample(u_, 1000, replace=TRUE)
-    print(plot_cdf(u, u_))
+    print(plot_cdf(marginal_x(), marginal_y()))
   })
   
   # check if condition is fulfilled
@@ -75,4 +63,4 @@ server <- function(input, output){
   
 }
 
-shinyApp(ui = ui, server = server)
+#shinyApp(ui = ui, server = server)
