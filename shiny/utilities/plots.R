@@ -35,6 +35,9 @@ plot_cdf <- function(u, v) {
     # v: vector of values for variable 2
     # returns: ggplot
     u_ <- u[u < v] # go < stop
+    if (length(u_) < 10 ){
+      stop("There are not enough Tgo values that are smaller than Tstop. Make sure Tstop mean is not way lower than Tgo mean.")
+    }
     dat <- data.frame(
       u = sample(u, 10000, replace=TRUE),
       u_ = sample(u_, 10000, replace=TRUE)

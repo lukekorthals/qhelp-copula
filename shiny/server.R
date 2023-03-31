@@ -14,13 +14,17 @@ library(plotly)
 source("utilities/copula.R")
 source("utilities/marginals.R")
 source("utilities/plots.R")
+source("utilities/content.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
   
   # print short introduction
   output$short_intro <- renderText({
-    "This project aims to..."
+    "The goal of this project is to generate and visualize cumulative probability
+    distributions of reaction times in the general race model using copulas.
+    With the help of a shiny-app, the user can try out different starting 
+    configurations by choosing custom copulae and marginals. "
   })
   
   # print explanation if action button is pressed
@@ -28,7 +32,13 @@ server <- function(input, output){
     # show text when number of clicks is uneven; hide if even
     if(input$action_explain %% 2 == 1){
       updateActionButton(inputId = "action_explain", label = "Hide explanation")
-      renderText({"The stop signla task is an inhibition task in which..."})
+      renderText({"The stop signal paradigm is an experimental setup within which 
+        subjects are instructed to respond to a cue ('go' signal) as fast as 
+        possible by for example pressing a button (no stop signal trials). 
+        In a small subset of trials, shortly after the 'go' signal, an additional 
+        'stop' signal is presented which requires participants to inhibit the 
+        initiated response. Within these stop-signal trials, participants might
+        or might not manage to inhibit the go."})
     } else {
       updateActionButton(inputId = "action_explain", label = "What is the stop signal task?")
       tagList()
@@ -83,7 +93,7 @@ server <- function(input, output){
   
   # print explanation of condition
   output$explain_cond <- renderText({
-    "blablabla"
+    print(explanation_cdf())
   })
   
   # plot cdf 
