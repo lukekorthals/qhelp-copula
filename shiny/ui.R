@@ -13,6 +13,7 @@ library(plotly)
 # Define UI for application 
 
 ui <- fluidPage(
+  
   titlePanel("Coping with copulas"),
   
   hr(),
@@ -28,6 +29,16 @@ ui <- fluidPage(
     column(12, 
            actionButton("action_explain", "What is the stop signal task?"), 
            uiOutput("explain")
+    )
+  ),
+  
+  hr(),
+  
+  # action button definition copula
+  fluidRow(
+    column(12, 
+           actionButton("action_racemodel", "What is the general race model about?"), 
+           uiOutput("race_def")
     )
   ),
   
