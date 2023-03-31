@@ -24,14 +24,16 @@ plot_cdf <- function(u, v) {
     # Tgo: vector of values for variable 1
     # Tstop: vector of values for variable 2
     # returns: ggplot
-    u_ <- data.frame(u, v) %>%
-        mutate(go_stop_dif = u-v) %>%
-        filter(go_stop_dif <= 0) %>%
-        dplyr::select(u) %>%
-      unlist()
-    fig <- ggplot(data.frame(u), aes(u_)) +
-      stat_ecdf(geom="smooth") +
-      stat_ecdf(data=data.frame(U_), aes(u_), col="red") +
+    u_ <- u-v
+    u_ <- u_[u_ < 0] # go < stop
+    dat <- data.frame(
+      u = sample(u, 10000, replace=TRUE),
+      u_ = sample(u_, 10000, replace=TRUE)
+      )
+    fig <- ggplot(dat) +
+      stat_ecdf(aes(u), geom="smooth", col="black") +
+      stat_ecdf(aes(u_), geom="smooth", col="red") +
       theme_classic()
     return(fig)
-}
+} 
+
