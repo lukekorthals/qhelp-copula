@@ -31,14 +31,14 @@ ui <- fluidPage(
                              Farlie_Gumbel_Morgenstern = "fgm",
                              "t", 
                              Clayton = "clayton",
-                             Frank= "frank", 
+                             Frank= "frank",     
                              Gumbel = "gumbel",
-                             Ali-Mikhail-Haq = "amh",
+                             Ali_Mikhail_Haq = "amh",
                              Joe = "joe",
                              Galambos = "galambos",
-                             Husler-Reiss = "huslerReiss",
+                             Hüsler_Reiß = "huslerReiss",
                              Tawn = "tawn",
-                             t-Extreme-Value = "tev"
+                             t_Extreme_Value = "tev"
                            )
                ),
                
@@ -57,12 +57,12 @@ ui <- fluidPage(
                                min=1, max=50, step=1, value=5),
                  )
                ),
-               # if clayton copula: choice of theta
+               # if other copula: choice of theta
                conditionalPanel(
-                 condition = "input.copula == 'clayton'",
+                 condition = "input.copula != 'gaussian' & input.copula != 'fgm' & input.copula != 't'",
                  sliderInput(inputId = "theta", 
                              label = "Determine theta", 
-                             min=1, max=50, step=1, value=5),
+                             min=-50, max=50, step=0.1, value=0),
                ),
                # choose marginals for x and y 
                radioButtons(inputId  = "x_marginal", 
