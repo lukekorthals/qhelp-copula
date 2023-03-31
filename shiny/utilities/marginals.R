@@ -22,7 +22,7 @@ extract_marginal <- function(u, marginal="normal", scale_mean=200, wei_shape=NUL
                 logNormal = qlnorm(u, meanlog=scale_mean),
                 exGaussian = qexGAUS(u, mu=scale_mean),
                 doubleExponential = qdexp(u, location=scale_mean),
-                weibull = qweibull(u, shape = wei_shape, scale=scale_mean)
+                weibull = qweibull(u, shape = 5, scale=scale_mean)
   )
   return(u_t)
 }
