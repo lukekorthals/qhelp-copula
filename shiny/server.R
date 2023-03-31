@@ -14,7 +14,6 @@ library(plotly)
 source("utilities/copula.R")
 source("utilities/marginals.R")
 source("utilities/plots.R")
-source("utilities/content.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output){
