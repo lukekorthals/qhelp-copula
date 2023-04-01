@@ -3,7 +3,7 @@ You can run the app from your browser: https://lukekorthals.shinyapps.io/stop-si
 
 You can run the app from R Studiod:
 
-runGitHub( "qhelp-copula", "lukekorthals")
+runGitHub( "qhelp-copula", "lukekorthals", subdir = "shiny")
 
 ## Qhelp 2023 project 
 
