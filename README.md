@@ -1,3 +1,6 @@
+## qhelp-copula
+As part of the mathematical psychology seminar we created this shiny app to investigate different copula and how they relate to the general race model of reaction times. 
+
 ## Shiny App
 You can run the app from your browser: https://lukekorthals.shinyapps.io/stop-signal-copula/
 
